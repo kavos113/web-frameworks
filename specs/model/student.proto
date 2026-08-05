@@ -1,6 +1,8 @@
 syntax = "proto3";
 
 import "university.proto";
+import "class.proto";
+import "google/protobuf/timestamp.proto";
 
 message Student {
   string id = 1;
@@ -19,7 +21,7 @@ message StudentAssignmentInfo {
   string student_id = 1;
   string assignment_id = 2;
   int32 score = 3;
-  timestamp submitted_at = 4;
+  google.protobuf.Timestamp submitted_at = 4;
 }
 
 message Grades {

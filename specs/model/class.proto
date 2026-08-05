@@ -1,6 +1,8 @@
 syntax = "proto3";
 
 import "university.proto";
+import "teacher.proto";
+import "google/protobuf/timestamp.proto";
 
 enum DayOfWeek {
   DAY_OF_WEEK_MONDAY = 0;
@@ -49,7 +51,7 @@ message Assignment {
   string title = 3;
   string description = 4;
   int32 max_score = 5;
-  timestamp due = 6;
+  google.protobuf.Timestamp due = 6;
 
   message Attachment {
     string name = 1;
