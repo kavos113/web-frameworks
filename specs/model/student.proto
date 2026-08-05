@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+import "university.proto";
+
+message Student {
+  string id = 1;
+  string name = 2;
+  Department department = 3;
+  int32 grade = 4;
+}
+
+message StudentClassInfo {
+  string student_id = 1;
+  string class_id = 2;
+  int32 score = 3;
+}
+
+message StudentAssignmentInfo {
+  string student_id = 1;
+  string assignment_id = 2;
+  int32 score = 3;
+  timestamp submitted_at = 4;
+}
+
+message Grades {
+  string student_id = 1;
+  int32 year = 2;
+  Semester semester = 3;
+  repeated StudentClassInfo class_infos = 4;
+  float gpa = 5;
+  float gpt = 6;
+  float credits = 7;
+}

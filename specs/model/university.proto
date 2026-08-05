@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+message Room {
+  string name = 1;
+}
+
+message Department {
+  string name = 1;
+}

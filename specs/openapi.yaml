@@ -1,0 +1,96 @@
+openapi: 3.0.3
+info: 
+  title: University API
+  description: University API
+  version: 1.0.0
+
+tags:
+  - name: Auth
+    description: 認証
+  - name: Class
+    description: 講義情報
+  - name: Student
+    description: 学生情報
+  - name: Teacher
+    description: 教員情報
+  - name: University
+    description: 大学情報
+
+paths:
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: ログイン
+      description: ログインする
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          description: Unauthorized
+
+  /auth/signup:
+    post:
+      tags:
+        - Auth
+      summary: サインアップ
+      description: 新規ユーザー登録する
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '400':
+          description: Bad Request
+
+  /auth/logout:
+    post:
+      tags:
+        - Auth
+      summary: ログアウト
+      description: ログアウトする
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+
+components:
+  schemas:
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          description: ユーザー名
+        password:
+          type: string
+          description: パスワード
+      required:
+        - username
+        - password
+
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          description: 認証トークン

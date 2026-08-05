@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+import "university.proto";
+
+enum DayOfWeek {
+  DAY_OF_WEEK_MONDAY = 0;
+  DAY_OF_WEEK_TUESDAY = 1;
+  DAY_OF_WEEK_WEDNESDAY = 2;
+  DAY_OF_WEEK_THURSDAY = 3;
+  DAY_OF_WEEK_FRIDAY = 4;
+  DAY_OF_WEEK_SATURDAY = 5;
+  DAY_OF_WEEK_SUNDAY = 6;
+}
+
+enum Semester {
+  SEMESTER_SPRING = 0;
+  SEMESTER_SUMMER = 1;
+  SEMESTER_FALL = 2;
+  SEMESTER_WINTER = 3;
+}
+
+message Class {
+  message Period {
+    DayOfWeek day_of_week = 1;
+    int32 start_time = 2; // 1, 2, 3, ...
+    int32 end_time = 3;
+    Room room = 4;
+  }
+
+  string id = 1;
+  string name = 2;
+  Department department = 3;
+  repeated Teacher teachers = 4;
+  repeated Period periods = 5;
+  repeated Semester semesters = 6;
+  int32 year = 7;
+  int32 credit = 8;
+}
+
+message ClassSchedule {
+  string class_id = 1;
+  int32 count = 2;
+  string description = 3;
+}
+
+message Assignment {
+  string id = 1;
+  string class_id = 2;
+  string title = 3;
+  string description = 4;
+  int32 max_score = 5;
+  timestamp due = 6;
+
+  message Attachment {
+    string name = 1;
+    string url = 2;
+  }
+
+  repeated Attachment attachments = 7;
+}
