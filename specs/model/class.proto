@@ -47,7 +47,7 @@ message ClassSchedule {
 
 message Assignment {
   string id = 1;
-  string class_id = 2;
+  ClassSchedule class_schedule = 2;
   string title = 3;
   string description = 4;
   int32 max_score = 5;

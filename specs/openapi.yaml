@@ -7,14 +7,12 @@ info:
 tags:
   - name: Auth
     description: 認証
-  - name: Class
-    description: 講義情報
-  - name: Student
-    description: 学生情報
-  - name: Teacher
-    description: 教員情報
-  - name: University
-    description: 大学情報
+  - name: Students
+    description: 学生向けAPI
+  - name: Teachers
+    description: 教員向けAPI
+  - name: Common
+    description: 共通API
 
 paths:
   /auth/login:
@@ -73,6 +71,531 @@ paths:
         '401':
           description: Unauthorized
 
+  /students/me:
+    get:
+      tags:
+        - Students
+      summary: 自分の情報を取得
+      description: ログイン中の学生の情報を取得する
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+        '401':
+          description: Unauthorized
+
+  /students/me/classes:
+    get:
+      tags:
+        - Students
+      summary: 自分の履修情報を取得
+      description: ログイン中の学生の履修情報を取得する
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Class'
+        '401':
+          description: Unauthorized
+
+  /students/me/classes/{class_id}:
+    get:
+      tags:
+        - Students
+      summary: 自分の指定したクラスの情報を取得
+      description: ログイン中の学生の指定したクラスの情報を取得する
+      parameters:
+        - name: class_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: クラスID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Class'
+        '401':
+          description: Unauthorized
+
+  /students/me/classes/{class_id}/assignments:
+    get:
+      tags:
+        - Students
+      summary: 自分の課題情報を取得
+      description: ログイン中の学生の指定したクラスの課題情報を取得する
+      parameters:
+        - name: class_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: クラスID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Assignment'
+        '401':
+          description: Unauthorized
+
+  /students/me/classes/{class_id}/assignments/{assignment_id}:
+    get:
+      tags:
+        - Students
+      summary: 自分の課題提出情報を取得
+      description: ログイン中の学生の指定した課題の提出情報を取得する
+      parameters:
+        - name: assignment_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 課題ID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudnetAssignment'
+        '401':
+          description: Unauthorized
+    post:
+      tags:
+        - Students
+      summary: 自分の課題を提出
+      description: ログイン中の学生の指定した課題の提出情報を作成する
+      parameters:
+        - name: assignment_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 課題ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudnetAssignment'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudnetAssignment'
+        '401':
+          description: Unauthorized
+
+  /students/me/grades:
+    get:
+      tags:
+        - Students
+      summary: 自分の成績情報を取得
+      description: ログイン中の学生の成績情報を取得する
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Grades'
+        '401':
+          description: Unauthorized
+
+  /teachers/me:
+    get:
+      tags:
+        - Teachers
+      summary: 自分の情報を取得
+      description: ログイン中の教員の情報を取得する
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Teacher'
+        '401':
+          description: Unauthorized
+
+  /teachers/me/classes:
+    get:
+      tags:
+        - Teachers
+      summary: 自分の担当クラス情報を取得
+      description: ログイン中の教員の担当クラス情報を取得する
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Class'
+        '401':
+          description: Unauthorized
+    post:
+      tags:
+        - Teachers
+      summary: 自分の担当クラスを追加
+      description: ログイン中の教員の担当クラスを追加する
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Class'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Class'
+        '401':
+          description: Unauthorized
+
+  /teachers/me/classes/{class_id}:
+    get:
+      tags:
+        - Teachers
+      summary: 自分の担当クラスの情報を取得
+      description: ログイン中の教員の担当クラスの情報を取得する
+      parameters:
+        - name: class_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: クラスID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Class'
+        '401':
+          description: Unauthorized
+    patch:
+      tags:
+        - Teachers
+      summary: 自分の担当クラスの情報を更新
+      description: ログイン中の教員の担当クラスの情報を更新する
+      parameters:
+        - name: class_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: クラスID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Class'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Class'
+        '401':
+          description: Unauthorized
+
+  /teachers/me/classes/{class_id}/assignments:
+    get:
+      tags:
+        - Teachers
+      summary: 自分の担当クラスの課題情報を取得
+      description: ログイン中の教員の担当クラスの課題情報を取得する
+      parameters:
+        - name: class_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: クラスID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Assignment'
+        '401':
+          description: Unauthorized
+    post:
+      tags:
+        - Teachers
+      summary: 自分の担当クラスの課題を追加
+      description: ログイン中の教員の担当クラスの課題を追加する
+      parameters:
+        - name: class_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: クラスID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Assignment'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Assignment'
+        '401':
+          description: Unauthorized
+
+  /teachers/me/classes/{class_id}/assignments/{assignment_id}:
+    get:
+      tags:
+        - Teachers
+      summary: 自分の担当クラスの課題情報を取得
+      description: ログイン中の教員の担当クラスの課題情報を取得する
+      parameters:
+        - name: class_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: クラスID
+        - name: assignment_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 課題ID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Assignment'
+        '401':
+          description: Unauthorized
+    patch:
+      tags:
+        - Teachers
+      summary: 自分の担当クラスの課題情報を更新
+      description: ログイン中の教員の担当クラスの課題情報を更新する
+      parameters:
+        - name: class_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: クラスID
+        - name: assignment_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 課題ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Assignment'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Assignment'
+        '401':
+          description: Unauthorized
+    delete:
+      tags:
+        - Teachers
+      summary: 自分の担当クラスの課題情報を削除
+      description: ログイン中の教員の担当クラスの課題情報を削除する
+      parameters:
+        - name: class_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: クラスID
+        - name: assignment_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 課題ID
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+
+  /teachers/me/classes/{class_id}/students:
+    get:
+      tags:
+        - Teachers
+      summary: 自分の担当クラスの学生情報を取得
+      description: ログイン中の教員の担当クラスの学生情報を取得する
+      parameters:
+        - name: class_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: クラスID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+        '401':
+          description: Unauthorized
+
+  /teachers/me/classes/{class_id}/assignments/{assignment_id}/submissions:
+    get:
+      tags:
+        - Teachers
+      summary: 自分の担当クラスの課題提出情報を取得
+      description: ログイン中の教員の担当クラスの課題提出情報を取得する
+      parameters:
+        - name: class_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: クラスID
+        - name: assignment_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 課題ID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StudnetAssignment'
+        '401':
+          description: Unauthorized
+
+  /teachers/me/classes/{class_id}/assignments/{assignment_id}/grade:
+    post:
+      tags:
+        - Teachers
+      summary: 自分の担当クラスの課題提出情報に採点
+      description: ログイン中の教員の担当クラスの課題提出情報に採点する
+      parameters:
+        - name: class_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: クラスID
+        - name: assignment_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 課題ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudnetAssignment'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudnetAssignment'
+        '401':
+          description: Unauthorized
+
+  /classes:
+    post:
+      tags:
+        - Common
+      summary: 講義情報検索
+      description: 講義情報を検索する
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                department:
+                  type: string
+                  description: 学科
+                year:
+                  type: integer
+                  description: 年度
+                semester:
+                  type: string
+                  enum:
+                    - SPRING
+                    - SUMMER
+                    - FALL
+                    - WINTER
+                  description: 学期
+                periods:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Period'
+                  description: 授業の時間割のリスト
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Class'
+        '404':
+          description: Not Found
+
 components:
   schemas:
     LoginRequest:
@@ -94,3 +617,207 @@ components:
         token:
           type: string
           description: 認証トークン
+
+    Student:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 学生ID
+        name:
+          type: string
+          description: 学生名 
+        department:
+          type: string
+          description: 学科
+        grade:
+          type: integer
+          description: 学年
+
+    Teacher:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 教員ID
+        name:
+          type: string
+          description: 教員名
+        department:
+          type: string
+          description: 学科
+
+    Period:
+      type: object
+      properties:
+        day_of_week:
+          type: string
+          enum:
+            - MONDAY
+            - TUESDAY
+            - WEDNESDAY
+            - THURSDAY
+            - FRIDAY
+            - SATURDAY
+            - SUNDAY
+          description: 曜日
+        start_time:
+          type: string
+          format: time
+          description: 開始時刻 (HH:mm:ss)
+        end_time:
+          type: string
+          format: time
+          description: 終了時刻 (HH:mm:ss)
+        room:
+          type: string
+          description: 教室
+
+    Class:
+      type: object
+      properties:
+        id:
+          type: string
+          description: クラスID
+        name:
+          type: string
+          description: クラス名
+        department:
+          type: string
+          description: 学科
+        teachers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Teacher'
+          description: 担当教員のリスト
+        periods:
+          type: array
+          items:
+            $ref: '#/components/schemas/Period'
+          description: 授業の時間割のリスト
+        semesters:
+          type: array
+          items:
+            type: string
+            enum:
+              - SPRING
+              - SUMMER
+              - FALL
+              - WINTER
+          description: 開講学期のリスト
+        year:
+          type: integer
+          description: 開講年度
+        credits:
+          type: integer
+          description: 単位数
+
+    ClassSchedule:
+      type: object
+      properties:
+        class_id:
+          type: string
+          description: クラスID
+        count:
+          type: integer
+          description: 授業回数
+        description:
+          type: string
+          description: 授業の説明
+
+    Attachment:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 添付ファイル名
+        url:
+          type: string
+          description: 添付ファイルのURL
+
+    Assignment:
+      type: object
+      properties:
+        id:   
+          type: string
+          description: 課題ID
+        class_schedule:
+          $ref: '#/components/schemas/ClassSchedule'
+        title:
+          type: string
+          description: 課題タイトル
+        description:
+          type: string
+          description: 課題の説明
+        max_score:
+          type: integer
+          description: 課題の最大得点
+        due:
+          type: string
+          format: date-time
+          description: 課題の提出期限 (ISO 8601形式)
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attachment'
+    
+    StudnetAssignment:
+      type: object
+      properties:
+        student_id:
+          type: string
+          description: 学生ID
+        assignment_id:
+          type: string
+          description: 課題ID
+        score:
+          type: integer
+          description: 得点
+        submitted_at:
+          type: string
+          format: date-time
+          description: 提出日時 (ISO 8601形式)
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attachment'
+
+    Grades:
+      type: object
+      properties:
+        student_id:
+          type: string
+          description: 学生ID
+        year:
+          type: integer
+          description: 年度
+        semester:
+          type: string
+          enum:
+            - SPRING
+            - SUMMER
+            - FALL
+            - WINTER
+          description: 学期
+        classes:
+          type: array
+          items:
+            type: object
+            properties:
+              class_id:
+                type: string
+                description: クラスID
+              score:
+                type: integer
+                description: 成績
+        gpa:
+          type: number
+          format: float
+          description: GPA
+        gpt:
+          type: number
+          format: float
+          description: GPT
+        credits_earned:
+          type: integer
+          description: 取得単位数
