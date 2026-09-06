@@ -182,7 +182,7 @@ paths:
       description: ログイン中の学生の指定した課題の提出情報を作成する
       parameters:
         - name: assignment_id
-          in: query
+          in: path
           required: true
           schema:
             type: string
@@ -383,12 +383,6 @@ paths:
       summary: 自分の担当クラスの課題情報を取得
       description: ログイン中の教員の担当クラスの課題情報を取得する
       parameters:
-        - name: class_id
-          in: query
-          required: true
-          schema:
-            type: string
-          description: クラスID
         - name: assignment_id
           in: path
           required: true
@@ -410,12 +404,6 @@ paths:
       summary: 自分の担当クラスの課題情報を更新
       description: ログイン中の教員の担当クラスの課題情報を更新する
       parameters:
-        - name: class_id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: クラスID
         - name: assignment_id
           in: path
           required: true
@@ -443,12 +431,6 @@ paths:
       summary: 自分の担当クラスの課題情報を削除
       description: ログイン中の教員の担当クラスの課題情報を削除する
       parameters:
-        - name: class_id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: クラスID
         - name: assignment_id
           in: path
           required: true
@@ -493,12 +475,6 @@ paths:
       summary: 自分の担当クラスの課題提出情報を取得
       description: ログイン中の教員の担当クラスの課題提出情報を取得する
       parameters:
-        - name: class_id
-          in: query
-          required: true
-          schema:
-            type: string
-          description: クラスID
         - name: assignment_id
           in: path
           required: true
@@ -524,12 +500,6 @@ paths:
       summary: 自分の担当クラスの課題提出情報に採点
       description: ログイン中の教員の担当クラスの課題提出情報に採点する
       parameters:
-        - name: class_id
-          in: query
-          required: true
-          schema:
-            type: string
-          description: クラスID
         - name: assignment_id
           in: path
           required: true
