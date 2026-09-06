@@ -128,7 +128,7 @@ paths:
         '401':
           description: Unauthorized
 
-  /students/me/classes/{class_id}/assignments:
+  /students/me/assignments:
     get:
       tags:
         - Students
@@ -136,7 +136,7 @@ paths:
       description: ログイン中の学生の指定したクラスの課題情報を取得する
       parameters:
         - name: class_id
-          in: path
+          in: query
           required: true
           schema:
             type: string
@@ -153,7 +153,7 @@ paths:
         '401':
           description: Unauthorized
 
-  /students/me/classes/{class_id}/assignments/{assignment_id}:
+  /students/me/assignments/{assignment_id}:
     get:
       tags:
         - Students
@@ -182,7 +182,7 @@ paths:
       description: ログイン中の学生の指定した課題の提出情報を作成する
       parameters:
         - name: assignment_id
-          in: path
+          in: query
           required: true
           schema:
             type: string
@@ -324,7 +324,7 @@ paths:
         '401':
           description: Unauthorized
 
-  /teachers/me/classes/{class_id}/assignments:
+  /teachers/me/assignments:
     get:
       tags:
         - Teachers
@@ -332,7 +332,7 @@ paths:
       description: ログイン中の教員の担当クラスの課題情報を取得する
       parameters:
         - name: class_id
-          in: path
+          in: query
           required: true
           schema:
             type: string
@@ -355,7 +355,7 @@ paths:
       description: ログイン中の教員の担当クラスの課題を追加する
       parameters:
         - name: class_id
-          in: path
+          in: query
           required: true
           schema:
             type: string
@@ -376,7 +376,7 @@ paths:
         '401':
           description: Unauthorized
 
-  /teachers/me/classes/{class_id}/assignments/{assignment_id}:
+  /teachers/me/assignments/{assignment_id}:
     get:
       tags:
         - Teachers
@@ -384,7 +384,7 @@ paths:
       description: ログイン中の教員の担当クラスの課題情報を取得する
       parameters:
         - name: class_id
-          in: path
+          in: query
           required: true
           schema:
             type: string
@@ -486,7 +486,7 @@ paths:
         '401':
           description: Unauthorized
 
-  /teachers/me/classes/{class_id}/assignments/{assignment_id}/submissions:
+  /teachers/me/assignments/{assignment_id}/submissions:
     get:
       tags:
         - Teachers
@@ -494,7 +494,7 @@ paths:
       description: ログイン中の教員の担当クラスの課題提出情報を取得する
       parameters:
         - name: class_id
-          in: path
+          in: query
           required: true
           schema:
             type: string
@@ -517,7 +517,7 @@ paths:
         '401':
           description: Unauthorized
 
-  /teachers/me/classes/{class_id}/assignments/{assignment_id}/grade:
+  /teachers/me/assignments/{assignment_id}/grade:
     post:
       tags:
         - Teachers
@@ -525,7 +525,7 @@ paths:
       description: ログイン中の教員の担当クラスの課題提出情報に採点する
       parameters:
         - name: class_id
-          in: path
+          in: query
           required: true
           schema:
             type: string
