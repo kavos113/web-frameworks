@@ -4,11 +4,24 @@ import "university.proto";
 import "class.proto";
 import "google/protobuf/timestamp.proto";
 
+enum Grade {
+  GRADE_UNSPECIFIED = 0;
+  GRADE_1 = 1;
+  GRADE_2 = 2;
+  GRADE_3 = 3;
+  GRADE_4 = 4;
+  GRADE_5 = 5;
+  GRADE_6 = 6;
+  GRADE_7 = 7;
+  GRADE_8 = 8;
+  GRADE_9 = 9;  
+}
+
 message Student {
   string id = 1;
   string name = 2;
   Department department = 3;
-  int32 grade = 4;
+  Grade grade = 4;
 }
 
 message StudentClassInfo {
